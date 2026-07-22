@@ -1,0 +1,9 @@
+# .gitignore
+syntax: glob
+.env
+.git
+.gitignore
+__pycache__/
+*.pyc
+node_modules/
+dist/
