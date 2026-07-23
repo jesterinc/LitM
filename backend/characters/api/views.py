@@ -1,25 +1,36 @@
 #backend/charatcers/api/views.py
 from rest_framework import viewsets, permissions
-
 from characters.models import Character
-from users.models import PlayerProfile
-
 from characters.api.serializers import CharacterSerializer
 
-class CharacterViewSet(viewsets.ModelViewSet):
-    queryset = Character.objects.all()
+class IsOwnerOrStoryteller(permissions.BasePermission):
 
+    def has_object_permission(self, request, view, obj):
+
+        if obj.player.user == request.user:
+
+            return True
+
+        if obj.campaign and obj.campaign.storyteller.user == request.user:
+
+            return True
+
+        return False
+
+class CharacterViewSet(viewsets.ModelViewSet):
     serializer_class = CharacterSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrStoryteller]
+
+    queryset = Character.objects.all()
 
     def get_queryset(self):
 
         user = self.request.user
-        if hasattr(user, 'player_profile'):
-            return Character.objects.filter(player=user.player_profile)
-        return Character.objects.none()
+        qs = Character.objects.filter(player__user=user)
 
-    def perform_create(self, serializer):
+        if hasattr(user, 'storyteller_profile'):
 
-        player = PlayerProfile.objects.get(user=self.request.user)
-        serializer.save(player=player)
+            campaigns_narrated = user.storyteller_profile.created_campaigns.values_list('id', flat=True)
+            qs = qs | Character.objects.filter(campaign__id__in=campaigns_narrated)
+
+        return qs.distinct()

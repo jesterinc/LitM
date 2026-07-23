@@ -124,3 +124,18 @@ data/frontend/src/components/CharactersComponent/ThemeCard.vue.i
 data/frontend/src/views/DashboardView/DashboardView.js.i
 data/frontend/src/components/CharactersComponent/CharacterSheet.js.i
 data/frontend/src/views/DashboardView/DashboardView.vue.i
+data/frontend/src/components/CampaignsComponent/CampaignCard.css.i
+data/frontend/src/components/CampaignsComponent/CampaignCard.html.i
+data/frontend/src/assets/bg/Dashboard_PL.webp.i
+data/backend/users/authentication.py.i
+data/frontend/src/assets/bg/dashboard_ST.webp.i
+data/frontend/src/components/CampaignsComponent/StatusBadge.css.i
+data/frontend/src/components/CampaignsComponent/StatusBadge.js.i
+data/frontend/src/components/CampaignsComponent/LoginView.css.i
+data/frontend/src/components/CampaignsComponent/LoginView copy.css.i
+data/frontend/src/components/CampaignsComponent/StatusBadge.vue.i
+data/frontend/src/components/CampaignsComponent/StatusBadge.html.i
+data/frontend/src/components/CampaignsComponent/CampaignCard.js.i
+data/frontend/src/assets/bg/warrior.webp.i
+data/frontend/src/components/CampaignsComponent/CampaignCard.vue.i
+data/frontend/src/assets/bg/Dashboard_PL.webp.d
