@@ -24,27 +24,19 @@ class ThemeCardSerializer(serializers.ModelSerializer):
 
 
 class CharacterSerializer(serializers.ModelSerializer):
-    theme_cards = ThemeCardSerializer(many=True, read_only=True)
-    fellowship_relations = FellowshipRelationSerializer(many=True, read_only=True)
-    tags = TagSerializer(many=True, read_only=True)
-    player_username = serializers.CharField(source='player.user.username', read_only=True)
-
     class Meta:
         model = Character
-        fields = [
-            'id', 'name', 'player', 'player_username', 'campaign',
-            'concept', 'promise', 'promise_marks', 'quintessence',
-            'backpack', 'notes',
-            'fellowship_theme_title', 'fellowship_theme_desc', 'fellowship_quest',
-            'fellowship_tracks', 'fellowship_rags_lines', 'fellowship_special_improvements',
-            'history', 'portrait_url', 'created_at', 'updated_at',
-            'theme_cards', 'fellowship_relations', 'tags'
-        ]
-        read_only_fields = ['player', 'created_at', 'updated_at']
+        fields = '__all__'
+        read_only_fields = ['id', 'created_at', 'updated_at']
 
     def create(self, validated_data):
-        # Assegna automaticamente il personaggio al giocatore loggato
-        request = self.context.get('request')
-        if request and hasattr(request.user, 'player_profile'):
-            validated_data['player'] = request.user.player_profile
+        
+        request = self.context['request']
+
+        if validated_data.get('entity_type') == 'PC':
+
+            if hasattr(request.user, 'player_profile'):
+
+                validated_data['player'] = request.user.player_profile
+
         return super().create(validated_data)
